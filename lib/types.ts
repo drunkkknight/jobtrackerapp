@@ -13,4 +13,6 @@ export interface JobApplication {
   role: string;
   status: ApplicationStatus;
   dateAdded: string;
+  /** Local calendar date (YYYY-MM-DD). Missing on entries saved before this field existed. */
+  dateApplied?: string;
 }

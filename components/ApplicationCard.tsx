@@ -3,6 +3,7 @@
 import { ApplicationStatus, JobApplication } from "@/lib/types";
 import { STATUS_DOT, STATUS_STYLES } from "@/lib/statusStyles";
 import { APPLICATION_STATUSES } from "@/lib/types";
+import { parseISODate } from "@/lib/dates";
 
 interface ApplicationCardProps {
   application: JobApplication;
@@ -15,10 +16,14 @@ export function ApplicationCard({
   onDelete,
   onStatusChange,
 }: ApplicationCardProps) {
-  const formattedDate = new Date(application.dateAdded).toLocaleDateString(
-    undefined,
-    { year: "numeric", month: "short", day: "numeric" }
-  );
+  const appliedDate = application.dateApplied
+    ? parseISODate(application.dateApplied)
+    : new Date(application.dateAdded);
+  const formattedDate = appliedDate.toLocaleDateString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
 
   return (
     <div className="group relative flex flex-col gap-3 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900">
@@ -56,7 +61,7 @@ export function ApplicationCard({
           {application.status}
         </span>
         <span className="text-xs text-zinc-400 dark:text-zinc-500">
-          {formattedDate}
+          Applied {formattedDate}
         </span>
       </div>
 
